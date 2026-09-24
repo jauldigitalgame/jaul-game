@@ -10,19 +10,46 @@
         .red-alert { color: #ff0033; font-weight: bold; }
         .choice-btn { background: #111; color: #00ff66; border: 1px solid #00ff66; padding: 12px; margin: 10px 0; cursor: pointer; display: block; width: 100%; text-align: left; font-size: 15px; }
         .choice-btn:hover { background: #00ff66; color: #000; }
+        .media-container { margin: 15px 0; text-align: center; }
+        video { width: 100%; max-height: 250px; border: 1px solid #00ff66; }
     </style>
 </head>
 <body>
+
+<!-- Background Audio (Suspense Ambient Loop) -->
+<audio id="bgm-audio" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<!-- Click Sound Effect -->
+<audio id="sfx-click">
+    <source src="https://www.soundjay.com/buttons/sounds/button-3.mp3" type="audio/mpeg">
+</audio>
 
 <div class="terminal" id="game-container">
     <!-- Dynamic Content -->
 </div>
 
 <script>
+    // Audio Control Helpers
+    function playBGM() {
+        const bgm = document.getElementById('bgm-audio');
+        bgm.volume = 0.3;
+        bgm.play().catch(e => console.log("Audio autoplay restricted by browser"));
+    }
+
+    function playSFX() {
+        const sfx = document.getElementById('sfx-click');
+        sfx.currentTime = 0;
+        sfx.volume = 0.5;
+        sfx.play().catch(e => {});
+    }
+
     const scenes = {
         scene1: {
             title: "Act 1 - Scene 1: The Unknown Boot",
             text: "[SYSTEM INITIALIZING...]<br>[CONNECTING TO SECURE PROXY: NODE_774]<br><span class='red-alert'>WARNING: UNAUTHORIZED ACCESS DETECTED UNDER JAUL DIGITAL CINEMA NETWORK!</span><br><br><strong>Unknown Hacker:</strong> 'Welcome to the trap... There is no turning back now. Your system is fully under our control.'",
+            video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
             choices: [
                 { text: "Option A: Cut the main power plug immediately.", next: "scene2" },
                 { text: "Option B: Press any key to run terminal diagnostics.", next: "scene3" },
@@ -103,6 +130,7 @@
         scene18: {
             title: "Act 3 - Scene 18: Final Climax",
             text: "The ex-colleague swings an iron rod at you! A life-or-death struggle begins.<br><br><span class='red-alert'>WARNING: Choose your final move wisely!</span>",
+            video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
             choices: [
                 { text: "Option A: Overpower hacker & hand over to police -> [🏆 HERO ENDING]", next: "scene19" },
                 { text: "Option B: Blow up server & escape safely -> [⚡ SURVIVOR ENDING]", next: "scene20" },
@@ -120,17 +148,26 @@
             choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
         },
         scene21: {
-            title: "🔥 MASTERMIND ENDING: The New Ruler",
+            title: "🔥 MASTERMINDENDINGS: The New Ruler",
             text: "You partner up with the hacker instead of stopping him. Together, you control the Dark Web!<br><br><strong>[GAME COMPLETED: MASTERMIND ENDING UNLOCKED]</strong>",
             choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
         }
     };
 
     function renderScene(sceneId) {
+        playBGM(); // Starts background music on interaction
+        playSFX(); // Plays click sound
+
         const scene = scenes[sceneId];
         let html = `<h2>[JAUL DIGITAL CINEMA PRESENTATION]</h2>`;
         html += `<h3>${scene.title}</h3>`;
         html += `<hr color="#00ff66">`;
+
+        // Embed video if present in the scene
+        if(scene.video) {
+            html += `<div class="media-container"><video autoplay muted loop controls><source src="${scene.video}" type="video/mp4">Your browser does not support video.</video></div>`;
+        }
+
         html += `<p>${scene.text}</p><br>`;
         
         if(scene.choices && scene.choices.length > 0) {
@@ -143,7 +180,16 @@
         document.getElementById('game-container').innerHTML = html;
     }
 
-    renderScene('scene1');
+    // Initial trigger prompt to bypass browser audio restrictions
+    window.onload = function() {
+        document.getElementById('game-container').innerHTML = `
+            <h2>[JAUL DIGITAL CINEMA PRESENTATION]</h2>
+            <h3>SYSTEM SECURE TERMINAL</h3>
+            <hr color="#00ff66">
+            <p><strong>INSTRUCTION:</strong> Click below to initialize audio/video protocols and start the simulation.</p><br>
+            <button class="choice-btn" style="text-align:center; font-weight:bold; background:#00ff66; color:#000;" onclick="renderScene('scene1')">[ INITIALIZE HACKING SIMULATION ]</button>
+        `;
+    };
 </script>
 
 </body>
