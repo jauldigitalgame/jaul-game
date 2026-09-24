@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Web Hacking Mystery - Jaul Digital Cinema</title>
+    <style>
+        body { background-color: #050505; color: #00ff66; font-family: 'Courier New', Courier, monospace; padding: 20px; }
+        .terminal { max-width: 800px; margin: auto; border: 1px solid #00ff66; padding: 25px; background: #000; box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
+        .red-alert { color: #ff0033; font-weight: bold; }
+        .choice-btn { background: #111; color: #00ff66; border: 1px solid #00ff66; padding: 12px; margin: 10px 0; cursor: pointer; display: block; width: 100%; text-align: left; font-size: 15px; }
+        .choice-btn:hover { background: #00ff66; color: #000; }
+    </style>
+</head>
+<body>
+
+<div class="terminal" id="game-container">
+    <!-- Dynamic Content -->
+</div>
+
+<script>
+    const scenes = {
+        scene1: {
+            title: "Act 1 - Scene 1: The Unknown Boot",
+            text: "[SYSTEM INITIALIZING...]<br>[CONNECTING TO SECURE PROXY: NODE_774]<br><span class='red-alert'>WARNING: UNAUTHORIZED ACCESS DETECTED UNDER JAUL DIGITAL CINEMA NETWORK!</span><br><br><strong>Unknown Hacker:</strong> 'Welcome to the trap... There is no turning back now. Your system is fully under our control.'",
+            choices: [
+                { text: "Option A: Cut the main power plug immediately.", next: "scene2" },
+                { text: "Option B: Press any key to run terminal diagnostics.", next: "scene3" },
+                { text: "Option C: Execute emergency protocol [HELP_01].", next: "scene4" }
+            ]
+        },
+        scene2: {
+            title: "Act 1 - Scene 2: Power Cut & Backup Battery",
+            text: "You yanked the power cable, but the emergency internal battery kicked in instantly, flashing a new message on screen!<br><br><strong>Hacker:</strong> 'Fool! You can pull the plug, but my payload was already transferred to your main drive.'",
+            choices: [{ text: "Proceed: Check webcam & camera lock", next: "scene5" }]
+        },
+        scene3: {
+            title: "Act 1 - Scene 3: Terminal Diagnostics",
+            text: "You opened the terminal and typed diagnostic commands. Suddenly, your webcam light turned green on its own!<br><br>Your live video feed starts streaming on the screen.",
+            choices: [{ text: "Proceed: Attempt to cover the webcam", next: "scene6" }]
+        },
+        scene4: {
+            title: "Act 1 - Scene 4: Help Protocol Error",
+            text: "You typed the help protocol, but the system bypassed your firewall completely, placing a red lock on all your files.",
+            choices: [{ text: "Proceed: Attempt system recovery", next: "scene7" }]
+        },
+        scene5: {
+            title: "Act 1 - Scene 5: File Leak Trap",
+            text: "Suddenly, a confidential file bearing the 'Jaul Digital Cinema' logo begins leaking on screen.",
+            choices: [{ text: "Proceed -> Act 2: The Investigation", next: "scene11" }]
+        },
+        scene6: {
+            title: "Act 1 - Scene 6: Camera Blocked",
+            text: "You covered the webcam, but the hacker still maintains control over your system audio stream.",
+            choices: [{ text: "Proceed -> Act 2: The Investigation", next: "scene11" }]
+        },
+        scene7: {
+            title: "Act 1 - Scene 7: Locked System",
+            text: "With all files locked, a direct live chat window opens with the hacker.",
+            choices: [{ text: "Proceed -> Act 2: The Investigation", next: "scene11" }]
+        },
+        scene11: {
+            title: "Act 2 - Scene 11: The Investigation",
+            text: "After recovery, you trace the attack to an abandoned local server. What is your next move?",
+            choices: [
+                { text: "Option A: File a formal report with Cyber Police.", next: "scene12" },
+                { text: "Option B: Track the hacker yourself on the Dark Web.", next: "scene13" }
+            ]
+        },
+        scene12: {
+            title: "Act 2 - Scene 12: Police Assistance",
+            text: "The police request 48 hours for action, but by then it will be too late!",
+            choices: [{ text: "Proceed: Track warehouse location", next: "scene14" }]
+        },
+        scene13: {
+            title: "Act 2 - Scene 13: Dark Web Tracking",
+            text: "You trace the encrypted proxy to an abandoned warehouse on the outskirts of the city.",
+            choices: [{ text: "Proceed: Head towards the warehouse", next: "scene14" }]
+        },
+        scene14: {
+            title: "Act 2 - Scene 14: The Warehouse",
+            text: "You arrive outside the dilapidated warehouse. A dim red light glows from inside.",
+            choices: [
+                { text: "Option A: Break down the main door.", next: "scene15" },
+                { text: "Option B: Peek through the back window.", next: "scene16" }
+            ]
+        },
+        scene15: {
+            title: "Act 2 - Scene 15: Door Trap",
+            text: "Opening the door triggers a tripwire that sets off a loud local alarm!",
+            choices: [{ text: "Proceed: Sprint to the server room", next: "scene17" }]
+        },
+        scene16: {
+            title: "Act 2 - Scene 16: The Truth",
+            text: "Looking through the window, you spot your own ex-colleague orchestrating the entire hack!",
+            choices: [{ text: "Proceed: Jump inside to confront", next: "scene17" }]
+        },
+        scene17: {
+            title: "Act 2 - Scene 17: Server Room",
+            text: "Inside the server room, all 'Jaul Digital Cinema' data is currently downloading on a massive screen.",
+            choices: [{ text: "Proceed to Final Climax", next: "scene18" }]
+        },
+        scene18: {
+            title: "Act 3 - Scene 18: Final Climax",
+            text: "The ex-colleague swings an iron rod at you! A life-or-death struggle begins.<br><br><span class='red-alert'>WARNING: Choose your final move wisely!</span>",
+            choices: [
+                { text: "Option A: Overpower hacker & hand over to police -> [🏆 HERO ENDING]", next: "scene19" },
+                { text: "Option B: Blow up server & escape safely -> [⚡ SURVIVOR ENDING]", next: "scene20" },
+                { text: "Option C: Ally with the hacker & rule -> [🔥 MASTERMIND ENDING]", next: "scene21" }
+            ]
+        },
+        scene19: {
+            title: "🏆 HERO ENDING: Justice Served",
+            text: "You hand the hacker over to the authorities. Jaul Digital Cinema is saved and your reputation shines.<br><br><strong>[GAME COMPLETED: HERO ENDING UNLOCKED]</strong>",
+            choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
+        },
+        scene20: {
+            title: "⚡ SURVIVOR ENDING: Safe Escape",
+            text: "You trigger a warehouse blast, destroying all evidence and escaping safely with your life.<br><br><strong>[GAME COMPLETED: SURVIVOR ENDING UNLOCKED]</strong>",
+            choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
+        },
+        scene21: {
+            title: "🔥 MASTERMIND ENDING: The New Ruler",
+            text: "You partner up with the hacker instead of stopping him. Together, you control the Dark Web!<br><br><strong>[GAME COMPLETED: MASTERMIND ENDING UNLOCKED]</strong>",
+            choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
+        }
+    };
+
+    function renderScene(sceneId) {
+        const scene = scenes[sceneId];
+        let html = `<h2>[JAUL DIGITAL CINEMA PRESENTATION]</h2>`;
+        html += `<h3>${scene.title}</h3>`;
+        html += `<hr color="#00ff66">`;
+        html += `<p>${scene.text}</p><br>`;
+        
+        if(scene.choices && scene.choices.length > 0) {
+            html += `<p><strong>Select your option:</strong></p>`;
+            scene.choices.forEach(choice => {
+                html += `<button class="choice-btn" onclick="renderScene('${choice.next}')">${choice.text}</button>`;
+            });
+        }
+
+        document.getElementById('game-container').innerHTML = html;
+    }
+
+    renderScene('scene1');
+</script>
+
+</body>
+</html>
