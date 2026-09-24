@@ -11,12 +11,12 @@
         .choice-btn { background: #111; color: #00ff66; border: 1px solid #00ff66; padding: 12px; margin: 10px 0; cursor: pointer; display: block; width: 100%; text-align: left; font-size: 15px; }
         .choice-btn:hover { background: #00ff66; color: #000; }
         .media-container { margin: 15px 0; text-align: center; }
-        video { width: 100%; max-height: 250px; border: 1px solid #00ff66; }
+        video { width: 100%; max-height: 220px; border: 1px solid #00ff66; background: #000; }
     </style>
 </head>
 <body>
 
-<!-- Background Audio (Suspense Ambient Loop) -->
+<!-- Background Audio -->
 <audio id="bgm-audio" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
 </audio>
@@ -31,11 +31,10 @@
 </div>
 
 <script>
-    // Audio Control Helpers
     function playBGM() {
         const bgm = document.getElementById('bgm-audio');
         bgm.volume = 0.3;
-        bgm.play().catch(e => console.log("Audio autoplay restricted by browser"));
+        bgm.play().catch(e => console.log("Audio autoplay restricted"));
     }
 
     function playSFX() {
@@ -148,24 +147,24 @@
             choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
         },
         scene21: {
-            title: "🔥 MASTERMINDENDINGS: The New Ruler",
+            title: "🔥 MASTERMIND ENDING: The New Ruler",
             text: "You partner up with the hacker instead of stopping him. Together, you control the Dark Web!<br><br><strong>[GAME COMPLETED: MASTERMIND ENDING UNLOCKED]</strong>",
             choices: [{ text: "Play Again (Restart Game)", next: "scene1" }]
         }
     };
 
     function renderScene(sceneId) {
-        playBGM(); // Starts background music on interaction
-        playSFX(); // Plays click sound
+        playBGM(); 
+        playSFX(); 
 
         const scene = scenes[sceneId];
         let html = `<h2>[JAUL DIGITAL CINEMA PRESENTATION]</h2>`;
         html += `<h3>${scene.title}</h3>`;
         html += `<hr color="#00ff66">`;
 
-        // Embed video if present in the scene
+        // Updated Video Element with playsinline for smooth mobile rendering
         if(scene.video) {
-            html += `<div class="media-container"><video autoplay muted loop controls><source src="${scene.video}" type="video/mp4">Your browser does not support video.</video></div>`;
+            html += `<div class="media-container"><video autoplay muted loop playsinline controls><source src="${scene.video}" type="video/mp4">Your browser does not support video.</video></div>`;
         }
 
         html += `<p>${scene.text}</p><br>`;
@@ -180,7 +179,6 @@
         document.getElementById('game-container').innerHTML = html;
     }
 
-    // Initial trigger prompt to bypass browser audio restrictions
     window.onload = function() {
         document.getElementById('game-container').innerHTML = `
             <h2>[JAUL DIGITAL CINEMA PRESENTATION]</h2>
